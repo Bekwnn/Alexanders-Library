@@ -1,5 +1,4 @@
 var express = require('express');
-var pg = require('pg');
 var mongoose = require('mongoose');
 var uriUtil = require('mongodb-uri');
 var models = require('./models');
