@@ -7,7 +7,7 @@ var models = require('./models');
 var options = { server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } }, 
                 replset: { socketOptions: { keepAlive: 1, connectTimeoutMS : 30000 } } };  
 
-var mongodbUri = 'mongodb://heroku_f9lk33xc:7ucr4p8dc1lmh08o485v0jjghu@ds051913.mongolab.com:51913/heroku_f9lk33xc';
+var mongodbUri = 'mongodb://csc370user:csc370password@ds051903.mongolab.com:51903/heroku_dwfz5kgv';
 var mongooseUri = uriUtil.formatMongoose(mongodbUri);
 
 mongoose.connect(mongooseUri);
