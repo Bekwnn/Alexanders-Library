@@ -11,12 +11,5 @@ var MovieSchema = new mongoose.Schema({
 	}
 });
 
-var UserSchema = new mongoose.Schema({
-    first_name: String,
-    last_name: String,
-    email: String,
-    age: Number
-});
-
 // Export the schema
-module.exports = MovieSchema;
+module.exports = mongoose.model('Movie', MovieSchema);
