@@ -7,13 +7,10 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "body-parser": "^1.14.0",
-    "ejs": "2.3.3",
+    "ejs": "^2.3.3",
     "express": "^4.13.3",
-    "lodash": "^3.10.1",
-    "mongodb-uri": "^0.9.7",
-    "mongoose": "^4.1.8",
-    "node-restful": "^0.2.2"
+    "mongodb": "^2.1.0-alpha",
+    "mongoose": "*"
   },
   "engines": {
     "node": "0.12.7"

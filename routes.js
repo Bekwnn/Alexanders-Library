@@ -8,9 +8,15 @@ module.exports = function(app){
 	});
 
 	app.get('/mon', function(request, response) {
+		var qur;
 		User.find({first_name: '1970s'}, function(error, docs){
-			response.json(docs);
+			console.log(error);
+			qur = {hi:12, bob:"abba"};
+			response.render('pages/mon', {
+				val: docs
+			});
 		});
+		
 	});
 
 }
