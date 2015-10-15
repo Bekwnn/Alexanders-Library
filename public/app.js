@@ -1,5 +1,5 @@
 var app = angular.module('app', []);
 
-function mainController($scope){
-	console.log("angular app");
-}
+app.controller('mainController', function ($scope){
+	console.dir($scope);
+});
