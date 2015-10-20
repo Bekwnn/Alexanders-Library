@@ -1,25 +1,17 @@
 var mongoose = require('mongoose');
+var Schema = mongoose.Schema, ObjectId = Schema.ObjectId;
 
 var UserSchema = new mongoose.Schema({
-    first_name: String,
-    last_name: String,
-    email: String,
-    age: Number
+	_id: ObjectId,
+	student_no: { type: Number, unique: true },
+	first_name: String,
+	last_name: String,
+	username: { type: String, unique: true },
+	password: String,
+	email: { type: String, unique: true },
+	phone: Number,
+	address: String
 });
-
-/* scraps from pushing data to mongo
-var User = mongoose.model('users', models.user);
-
-// Create seed data
-var bob = new User({
-    first_name: '1970s',
-    last_name: 'Debby Boone',
-    email: 'You Light Up My Life',
-    age: 10
-});
-
-bob.save();
-*/
 
 // Export the schema
 module.exports = mongoose.model('User', UserSchema);
