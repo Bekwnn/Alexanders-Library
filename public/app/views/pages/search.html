@@ -1,0 +1,36 @@
+<div class="jumbotron text-center"> 
+    <h1>Search Page</h1>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-body">
+		<h3>Search Criteria</h3>
+		<form class="form form-inline" ng-submit="search.search()">
+				<div class="form-group col-xs-12 col-sm-6 col-lg-3">
+					<label class="col-xs-4">Title:</label>
+					<input type="text" class="form-control col-xs-8" ng-model="search.searchTitle">
+
+					<label class="col-xs-4">Subject:</label>
+					<input type="text" class="form-control col-xs-8" ng-model="search.searchSubject">
+
+					<label class="col-xs-4">Price:</label>
+					<input type="text" class="form-control col-xs-8" ng-model="search.searchPrice">
+				</div>
+
+
+				 
+			<button type="submit" class="btn btn-success col-xs-2 col-xs-offset-10">Search</button>
+
+		</form>  
+	</div>
+</div>
+
+<div class="panel panel-default">
+<div class="panel-heading">Results</div>
+<div ng-repeat="result in search.results">
+	<div class="panel-body">	
+		<h1>{{ result.title }} - <i>{{ result.price | currency }}</i></h1>
+		<p>{{ result.subject }}</b></p>
+	</div>
+</div>
+

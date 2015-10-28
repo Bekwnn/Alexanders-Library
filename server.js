@@ -3,7 +3,7 @@
 // CALL THE PACKAGES ------------------
 var express    = require('express');
 var app        = express();
-var path	   = require('path');
+var path	   = require('path');		 // cleans up filepath strings
 
 var bodyParser = require('body-parser'); // helps pull POST content from HTTP requests
 var morgan     = require('morgan');      // logs api calls to console
@@ -38,6 +38,7 @@ app.use(function(req, res, next) {
 // log all requests to console
 app.use(morgan('dev'));
 
+// Set /public folder as frontend's root
 app.use(express.static(__dirname + '/public'));
 
 // ROUTES FOR THE API

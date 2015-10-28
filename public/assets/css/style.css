@@ -1,0 +1,18 @@
+body { padding-top:50px; }
+#content-views { position:relative; }
+.ng-enter, .ng-leave { width:100%; position:absolute; }
+.ng-enter { 
+	-webkit-animation:fadeIn 0.2s both ease-in;
+	-moz-animation:fadeIn 0.2s both ease-in;
+	animation:fadeIn 0.2s both ease-in; 
+}
+.ng-leave { 
+	-webkit-animation:fadeOut 0.2s both ease-in;
+	-moz-animation:fadeOut 0.2s both ease-in;
+	animation:fadeOut 0.2s both ease-in;
+}
+
+.navbar-nav.navbar-right:last-child{
+
+	margin-right: 0px;
+}
