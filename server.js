@@ -3,6 +3,7 @@
 // CALL THE PACKAGES ------------------
 var express    = require('express');
 var app        = express();
+var path	   = require('path');
 
 var bodyParser = require('body-parser'); // helps pull POST content from HTTP requests
 var morgan     = require('morgan');      // logs api calls to console
@@ -37,12 +38,14 @@ app.use(function(req, res, next) {
 // log all requests to console
 app.use(morgan('dev'));
 
+app.use(express.static(__dirname + '/public'));
+
 // ROUTES FOR THE API
 //=====================================
 
 // send the home page
 app.get('/', function(req, res) {
-	res.send('Welcome to Alexander\'s Library');
+	res.sendFile(path.join(__dirname + '/public/app/views/index.html'));
 });
 
 // create routes
