@@ -8,13 +8,19 @@ angular.module('routerRoutes', ['ngRoute'])
             controllerAs: 'home'
 		})
 
+		.when('/login', {
+			templateUrl : 'app/views/pages/login.html',
+			controller  : 'mainController',
+			controllerAs: 'login'
+		})
+
         .when('/search', {
             templateUrl : 'app/views/pages/search.html',
             controller  : 'searchController',
             controllerAs: 'search'
         })
 
-        .when('/users', {
+        .when('/books', {
             templateUrl : 'app/views/pages/users.html',
             controller  : 'userController',
             controllerAs: 'users'
