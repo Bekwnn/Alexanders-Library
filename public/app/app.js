@@ -1,4 +1,4 @@
-angular.module('libraryApp', ['routerRoutes', 'ngAnimate'])
+angular.module('libraryApp', ['routerRoutes', 'ngAnimate', 'userCtrl'])
 
 
 .controller('mainController', function(){
@@ -41,4 +41,10 @@ angular.module('libraryApp', ['routerRoutes', 'ngAnimate'])
 					{ title : 'Banana Stuff', subject : 'Bananas', price : 1.00 }
 				 ];
 	
+})
+
+.controller('userListController', function($http){
+	var vm = this;
+
+
 })
