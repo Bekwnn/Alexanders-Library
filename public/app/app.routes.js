@@ -14,6 +14,12 @@ angular.module('routerRoutes', ['ngRoute'])
             controllerAs: 'search'
         })
 
+        .when('/users', {
+            templateUrl : 'app/views/pages/users.html',
+            controller  : 'userController',
+            controllerAs: 'users'
+        })
+
     $locationProvider.html5Mode(true);
 
 });
