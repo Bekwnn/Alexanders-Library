@@ -25,6 +25,13 @@ angular.module('routerRoutes', ['ngRoute'])
             controller  : 'userController',
             controllerAs: 'users'
         })
+		
+		
+        .when('/signup', {
+            templateUrl : 'app/views/pages/signup.html',
+            controller  : 'userCreateController',
+            controllerAs: 'user'
+        })
 
     $locationProvider.html5Mode(true);
 

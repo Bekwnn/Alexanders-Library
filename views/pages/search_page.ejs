@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<script src= "http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+<body>
+
+<% include ../partials/nav.ejs %>
+
+<h1>SEARCH SUBTEXT FOR THE BOOKS YOU NEED</h1>
+
+<div id = "SearchForm">
+
+
+
+<form align = "center">
+  Search:<br>
+  <input type="text" name="search">
+	<Br><Br>
+  <input type="submit" value="Submit">
+
+</form>
+
+</div>
+
+
+<div data-ng-app="" data-ng-init="names=['Book for Politics 101',' Book for Math 100',' Book for Music 301']">
+  <p>BOOK RESULTS:</p>
+  <ul>
+    <li data-ng-repeat="x in names">
+      {{ x }} <button ng-click="x">ReserveBook</button>
+    </li>
+  </ul>
+</div>
+
+
+
+</body>
+<html>

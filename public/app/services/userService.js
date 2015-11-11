@@ -1,6 +1,6 @@
-angular.module('stuffService', [])
+angular.module('userService', [])
 
-.factory('Stuff', function($http) {
+.factory('Users', function($http) {
 	// create the object
 	var myFactory = {};
 
@@ -8,7 +8,12 @@ angular.module('stuffService', [])
 	myFactory.all = function() {
 		return $http.get('/api/users');
 	};
+	
+	myFactory.create = function(){
+		return $http.post('/api/user');
+	}
 
 	return myFactory;
 
 });
+

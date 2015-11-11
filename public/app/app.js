@@ -8,6 +8,15 @@ angular.module('libraryApp', [
 	'searchCtrl'
 ])
 
+
+
+.config(function($httpProvider){
+
+	$httpProvider.interceptors.push('AuthInterceptor');
+
+})
+
+
 .controller('homeController', function(){
 	var vm = this;
 

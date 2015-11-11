@@ -1,0 +1,74 @@
+<div class = "page-header">
+	<h1 ng-if="user.type == 'create'">Create User</h1>
+	<h1 ng-if="user.type == 'edit'" >Edit User</h1>
+	
+	
+	
+	
+	<form class = "form-horizontal" ng-submit = "user.saveUser()">
+		
+		<div class = "form-group">
+			<label class = "col-sm-2 control-label">First Name</label>
+			<div class = "col-sm-6">
+				<input type = "text" class = "form-control" ng-model = "user.userData.first_name">
+				
+			</div>
+		</div>
+					
+		<div class = "form-group">
+			<label class = "col-sm-2 control-label">Last Name</label>
+			<div class = "col-sm-6">
+				<input type = "text" class = "form-control" ng-model = "user.userData.last_name">
+			</div>
+		</div>
+		
+		<div class = "form-group">
+			<label class = "col-sm-2 control-label">Password</label>
+			<div class = "col-sm-6">
+				<input type = "password" class = "form-control" ng-model = "user.userData.password">
+			</div>
+		</div>
+		
+		<div class = "form-group">
+			<label class = "col-sm-2 control-label">Phone Number</label>
+			<div class = "col-sm-6">
+				<input type = "text" class = "form-control" ng-model = "user.userData.phone">
+			</div>
+		</div>
+		
+		<div class = "form-group">
+			<label class = "col-sm-2 control-label">Address</label>
+			<div class = "col-sm-6">
+				<input type = "text" class = "form-control" ng-model = "user.userData.address">
+			</div>
+		</div>
+		
+		<div class = "form-group">
+			<label class = "col-sm-2 control-label">E-Mail</label>
+			<div class = "col-sm-6">
+				<input type = "text" class = "form-control" ng-model = "user.userData.email">
+			</div>
+		</div>
+		
+			<div class = "form-group">
+			<label class = "col-sm-2 control-label">Student Number</label>
+			<div class = "col-sm-6">
+				<input type = "text" class = "form-control" ng-model = "user.userData.student_no">
+			</div>
+		</div>
+		
+		<div class = "alert alert-info" >{{user.message}}</div>
+
+		
+		<button type="submit" class="btn btn-block btn-primary">
+				
+				<span>Create</span>
+				<span ng-if="login.processing" class = "spinner"><span class = "fa fa-refresh"></span></span>
+				
+		</button>
+		
+		
+	<div class = "form-group">
+	
+	
+</div>

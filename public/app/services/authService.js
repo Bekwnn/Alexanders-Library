@@ -44,7 +44,7 @@ angular.module('authService', [])
 // FACTORY for handling tokens
 .factory('AuthToken', function($window){
 	var authTokenFactory = {};
-	var token_string = '6ZtrW0JuSt0304877frg';
+	var token_string = 'token';
 
 	//get token
 	authTokenFactory.getToken = function(){

@@ -1,10 +1,10 @@
-angular.module('userCtrl', ['stuffService'])
+angular.module('userCtrl', ['userService'])
 
 // create a controller and inject the Stuff factory
-.controller('userController', function(Stuff) { 
+.controller('userController', function(Users) { 
 	var vm = this;
 	// get all the stuff
-	Stuff.all()
+	Users.all()
 		// promise object
 		.success(function(data) {
 		// bind the data to a controller variable 
@@ -12,4 +12,27 @@ angular.module('userCtrl', ['stuffService'])
 		vm.stuff = data;
 		console.log(data);
 	}); 
+})
+
+.controller('userCreateController', function(Users){
+
+	var vm = this;
+	vm.type = 'create';
+	
+	vm.saveUser = function(){
+	
+		vm.processing = true;
+		vm.message = '';
+		
+		
+		Users.create(vm.userData)
+			.success(function(data){
+				vm.processing = false;
+				
+				vm.userData = {};
+				vm.message = data.message;
+		});
+	
+	};
+
 });
