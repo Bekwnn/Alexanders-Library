@@ -9,6 +9,10 @@ angular.module('searchService', [])
 		return $http.get('/api/book');
 	};
 
+	searchFactory.search = function(searchData) {
+		return $http.post('/api/search/', searchData);
+	};
+
 	return searchFactory;
 
 });

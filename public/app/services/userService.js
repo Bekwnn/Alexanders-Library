@@ -6,11 +6,12 @@ angular.module('userService', [])
 
 	// a function to get all the stuff
 	myFactory.all = function() {
-		return $http.get('/api/users');
+		return $http.get('/api/user');
 	};
 	
-	myFactory.create = function(){
-		return $http.post('/api/user');
+	myFactory.create = function(formData){
+		console.log(formData);
+		return $http.post('/api/user', formData);
 	}
 
 	return myFactory;

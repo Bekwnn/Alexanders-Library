@@ -10,8 +10,7 @@ angular.module('userCtrl', ['userService'])
 		// bind the data to a controller variable 
 		// this comes from the stuffService 
 		vm.stuff = data;
-		console.log(data);
-	}); 
+	});
 })
 
 .controller('userCreateController', function(Users){
@@ -31,6 +30,7 @@ angular.module('userCtrl', ['userService'])
 				
 				vm.userData = {};
 				vm.message = data.message;
+
 		});
 	
 	};

@@ -92,10 +92,15 @@ module.exports = function(app, express) {
 			message: 'welcome to the api'
 		});
 	});
+
+	apiRouter.get('/me', function(req, res) { 
+		res.send(req.decoded);
+	});
 	
 	apiRouter.route('/user')
 		.post(function(req, res) {
 			var user = new User();	// create new instance of user model
+			console.log(req.body);
 			// set the new user from the post params
 			user.student_no = req.body.student_no;
 			user.first_name = req.body.first_name;
@@ -141,6 +146,11 @@ module.exports = function(app, express) {
 	apiRouter.route('/search')
 		.get(function(req, res) {
 			//TODO: perform a search and return list of books as result
+		})
+		.post(function(req, res){
+			//TODO: perform a search and return list of books as result	
+			console.log(req.body);
+			res.json([req.body]);
 		});
 	
 	return apiRouter;

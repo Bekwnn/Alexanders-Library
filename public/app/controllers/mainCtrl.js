@@ -19,14 +19,14 @@ angular.module('mainCtrl', [])
 		vm.processing = true;
 		vm.error = '';
 	
-		Auth.login(vm.loginData.username, vm.loginData.password)
+		Auth.login(vm.loginData.email, vm.loginData.password)
 			.success(function(data) {
 				vm.processing = false;
 				vm.loggedIn = data.success;
 				if(data.success)
 					$location.path('/search');
 				else{
-					vm.loginData.username = "";
+					vm.loginData.email = "";
 					vm.loginData.password = "";
 					vm.error = data.message;
 				}
