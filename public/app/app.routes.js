@@ -32,6 +32,12 @@ angular.module('routerRoutes', ['ngRoute'])
             controller  : 'userCreateController',
             controllerAs: 'user'
         })
+		
+		 .when('/new', {
+            templateUrl : 'app/views/pages/addResource.html',
+            controller  : 'bookCreateController',
+            controllerAs: 'book'
+        })
 
     $locationProvider.html5Mode(true);
 

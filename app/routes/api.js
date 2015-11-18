@@ -124,6 +124,30 @@ module.exports = function(app, express) {
 				
 				res.json(books);
 			});
+		})
+		
+		.post(function(req, res) {
+			var book = new Book();	// create new instance of user model
+			// set the new user from the post params
+			book.title = req.body.title;
+			book.author = req.body.author;
+			book.isbn10 = req.body.isbn10;
+			book.isbn13 = req.body.isbn13;
+			book.price = req.body.price;
+			book.subject = req.body.subject;
+			book.condition = req.body.condition;
+			book.location = req.body.location;
+			
+			// save the user
+			book.save(function(err) {
+				if (err) res.send(err);
+				else {
+					res.json({
+						success: true,
+						message: 'Book created.'
+					});
+				}
+			});
 		});
 	
 	apiRouter.route('/book/:book_id')

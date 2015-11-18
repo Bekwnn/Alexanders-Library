@@ -5,7 +5,9 @@ angular.module('libraryApp', [
 	'mainCtrl', 
 	'authService', 
 	'searchService', 
-	'searchCtrl'
+	'searchCtrl',
+	'bookService',
+	'bookCtrl'
 ])
 
 
@@ -19,7 +21,6 @@ angular.module('libraryApp', [
 
 .controller('homeController', function(){
 	var vm = this;
-
 	vm.message = 'the home page';
 
 })

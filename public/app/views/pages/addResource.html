@@ -1,0 +1,90 @@
+<div class = "page-header">
+
+
+	<h1>Add Book</h1>
+	
+	<!--seller_id: { type: ObjectId, ref: 'Seller' },-->
+	<!--date_added: Date,
+	date_sold: Date !-->
+	
+	<form class = "form-horizontal" ng-submit = "book.saveBook()"> <!--determine controller-->
+		
+		<div class = "form-group row" >
+			<label class = "col-sm-2 control-label">Title</label>
+			<div class = "col-sm-6">
+				<input type = "text" class = "form-control" ng-model = "book.bookData.title">
+				
+			</div>
+		</div>
+		<div class = "form-group row">
+			<label class = "col-sm-2 control-label">Author</label>
+			<div class = "col-sm-6">
+				<input type = "text" class = "form-control" ng-model = "book.bookData.author">
+				
+			</div>
+		</div>			
+		<div class = "form-group row">
+			<label class = "col-sm-2 control-label">ISBN-10</label>
+			<div class = "col-sm-6">
+				<input type = "number" class = "form-control" ng-model = "book.bookData.isbn10">
+				
+			</div>
+		</div>			
+		<div class = "form-group row">
+			<label class = "col-sm-2 control-label">ISBN-13</label>
+			<div class = "col-sm-6">
+				<input type = "number" class = "form-control" ng-model = "book.bookData.isbn13">
+				
+			</div>
+		</div>
+			
+				
+		<div class = "form-group row">
+			<label class = "col-sm-2 control-label">Price</label>
+			<div class = "col-sm-6">
+				<input type = "number" class = "form-control" ng-model = "book.bookData.price">
+				
+			</div>
+		</div>
+				
+		<div class = "form-group row">
+			<label class = "col-sm-2 control-label">Subject</label>
+			<div class = "col-sm-6">
+				<input type = "text" class = "form-control" ng-model = "book.bookData.subject">
+				
+			</div>
+		</div>
+	
+		<div class = "form-group row">
+			<label class = "col-sm-2 control-label">Condition</label>
+			<div class = "col-sm-6">
+				<input type = "text" class = "form-control" ng-model = "book.bookData.condition">
+				
+			</div>
+		</div>
+		
+						
+		<div class = "form-group row">
+			<label class = "col-sm-2 control-label">Location In Store</label>
+			<div class = "col-sm-6">
+				<input type = "text" class = "form-control" ng-model = "book.bookData.location">
+				
+			</div>
+		</div>
+		
+		
+		<div class = "alert alert-info" >{{book.message}}</div>
+
+		
+		<button type="submit" class="btn btn-block btn-primary">
+				
+				<span>Create Resource</span>
+				<!--<span ng-if="adding.processing" class = "spinner"><span class = "fa fa-refresh"></span></span>-->
+				
+		</button>
+		
+		
+	<div class = "form-group">
+	
+	
+</div>
