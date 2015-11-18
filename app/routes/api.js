@@ -1,7 +1,8 @@
 // INCLUDE MODELS ----------------------
 var modelPath = '../models/'
-var User   = require(modelPath + 'User.js');
-var Book   = require(modelPath + 'Book.js');
+var User        = require(modelPath + 'User.js');
+var Book        = require(modelPath + 'Book.js');
+var Reservation = require(modelPath + 'Reservation.js');
 
 // INCLUDE MODULES ---------------------
 var jwt    = require('jsonwebtoken');
@@ -132,8 +133,8 @@ module.exports = function(app, express) {
 		})
 		
 		.post(function(req, res) {
-			var book = new Book();	// create new instance of user model
-			// set the new user from the post params
+			var book = new Book();	// create new instance of book model
+			// set the new book from the post params
 			book.title = req.body.title;
 			book.author = req.body.author;
 			book.isbn10 = req.body.isbn10;
@@ -143,7 +144,7 @@ module.exports = function(app, express) {
 			book.condition = req.body.condition;
 			book.location = req.body.location;
 			
-			// save the user
+			// save the book
 			book.save(function(err) {
 				if (err) res.send(err);
 				else {
@@ -164,18 +165,32 @@ module.exports = function(app, express) {
 			});
 		})
 		.post(function(req, res) { // reserves the book
-			//TODO: make reservation
+			var reservation = new Reservation();	// create new instance of reservation model
+			// set the new reservation
+			reservation.book_id = req.params.book_id;
+			reservation.user_id = req.params.book_id; //TODO: grab user_id from authorization token
+			var now = new Date();
+			reservation.start_date = now;
+			reservation.end_date = new Date().setDate(now.getDate()+7); //user has 7 days before reservation expires
+			
+			// save the reservation
+			reservation.save(function(err) {
+				if (err) res.send(err);
+				else {
+					res.json({
+						success: true,
+						message: 'Reservation created.'
+					});
+				}
+			});
 		});
 		
 	apiRouter.route('/search')
 		.get(function(req, res) {
 			//TODO: perform a search and return list of books as result
+			console.log(req.body); //templog
+			res.json([req.body]); //templog
 		})
-		.post(function(req, res){
-			//TODO: perform a search and return list of books as result	
-			console.log(req.body);
-			res.json([req.body]);
-		});
 	
 	return apiRouter;
 };
