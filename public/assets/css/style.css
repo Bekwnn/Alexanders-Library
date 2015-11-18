@@ -13,8 +13,16 @@ body { padding-top:50px; }
 }
 
 .navbar-nav.navbar-right:last-child{
-
 	margin-right: 0px;
+}
+
+h3{
+	margin-top: 8px;
+	margin-bottom: 4px;
+}
+
+.table{
+	margin-bottom: 0px;
 }
 
 .spinner{

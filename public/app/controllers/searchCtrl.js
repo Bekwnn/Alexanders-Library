@@ -5,15 +5,24 @@ angular.module('searchCtrl', ['searchService'])
 
 	vm.message = 'the search page';
 
-	vm.searchTitle = "";
-	vm.searchSubject = "";
-	vm.searchPrice = 0;
+	vm.searchData = { title: "", subject: "", author: "" };
 
 	vm.search = function(){
-		vm.results.push({title:vm.searchTitle, subject:vm.searchSubject, price:vm.searchPrice});
-		vm.searchTitle = "";
-		vm.searchSubject = "";
-		vm.searchPrice = 0;
+		vm.processing = true;
+
+		Search.search(vm.searchData)
+			.success(function(data){
+				vm.processing = false;
+				vm.results = data;
+				vm.searchData = { title: "", subject: "", author: "" };
+			});
+
+		
+	};
+
+	vm.reserve = function(book){
+		vm.processing = true;
+		console.log(book);
 	};
 
 	Search.all()

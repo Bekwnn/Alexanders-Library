@@ -5,9 +5,9 @@ angular.module('authService', [])
 	var authFactory = {};
 
 	//handle login
-	authFactory.login = function(username, password){
+	authFactory.login = function(email, password){
 		return $http.post('/api/authenticate', {
-			username: username,
+			email: email,
 			password: password
 		})
 			.success(function(data){
@@ -32,7 +32,7 @@ angular.module('authService', [])
 	//get user info
 	authFactory.getUser = function() {
 		if(AuthToken.getToken())
-			return $http.get('/api/users', { cache: true});
+			return $http.get('/api/me', { cache: true});
 		else
 			return $q.reject({ message: 'User has no token.' });
 	};
@@ -63,7 +63,7 @@ angular.module('authService', [])
 })
 
 //app configuration to integrate token requests
-.factory('AuthInterceptor', function($q, AuthToken) {
+.factory('AuthInterceptor', function($q, $location, AuthToken) {
 	var interceptorFactory = {};
 
 	//attach the token to every request
