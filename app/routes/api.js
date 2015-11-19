@@ -195,7 +195,7 @@ module.exports = function(app, express) {
 			var reservation = new Reservation();	// create new instance of reservation model
 			// set the new reservation
 			reservation.book_id = req.params.book_id;
-			reservation.user_id = req.params.book_id; //TODO: grab user_id from authorization token
+			reservation.user_id = req.body.user_id; //TODO: grab user_id from authorization token
 			var now = new Date();
 			reservation.start_date = now;
 			reservation.end_date = new Date().setDate(now.getDate()+7); //user has 7 days before reservation expires
