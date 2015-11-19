@@ -99,6 +99,13 @@ module.exports = function(app, express) {
 	});
 	
 	apiRouter.route('/user')
+		.get(function(req, res) { // fetches all users TODO: admin only
+			User.find(function(err, users) {
+				if (err) res.send(err);
+				
+				res.json(users);
+			});
+		})
 		.post(function(req, res) {
 			var user = new User();	// create new instance of user model
 			console.log(req.body);
@@ -124,12 +131,32 @@ module.exports = function(app, express) {
 		});
 	
 	apiRouter.route('/book')
-		.get(function(req, res) { // fetches all books
-			Book.find(function(err, books) {
-				if (err) res.send(err);
-				
-				res.json(books);
-			});
+		.get(function(req, res) {
+			// find books through search params
+			//(ex. /api/book?q=used)(ex2. GET api/book?q=Thomas'+Calculus)
+			if (req.query['q'])
+			{
+				Book.find(
+				{$or: [	// compares whole query for exact match against any of fields TODO: improve search
+					{title: req.query.q},
+					{author: req.query.q},
+					{subject: req.query.q},
+					{condition: req.query.q}
+				]},
+				function(err, books) {
+					if (err) res.send(err);
+					
+					res.json(books);
+				}
+			);
+			}
+			else { // if no search params, fetches all books
+				Book.find(function(err, books) {
+					if (err) res.send(err);
+					
+					res.json(books);
+				});
+			}
 		})
 		
 		.post(function(req, res) {
@@ -185,12 +212,14 @@ module.exports = function(app, express) {
 			});
 		});
 		
-	apiRouter.route('/search')
-		.get(function(req, res) {
-			//TODO: perform a search and return list of books as result
-			console.log(req.body); //templog
-			res.json([req.body]); //templog
-		})
+	apiRouter.route('/reservation')
+		.get(function(req, res) {	//fetches all reservations TODO: admin only
+			Reservation.find(function(err, reservations) {
+				if (err) res.send(err);
+				
+				res.json(reservations);
+			});
+		});
 	
 	return apiRouter;
 };
