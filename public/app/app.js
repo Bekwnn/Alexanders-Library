@@ -4,30 +4,14 @@ angular.module('libraryApp', [
 	'userCtrl', 
 	'mainCtrl', 
 	'authService', 
-	'searchService', 
 	'searchCtrl',
 	'bookService',
-	'bookCtrl'
+	'bookCtrl',
+	'homeCtrl'
 ])
-
-
 
 .config(function($httpProvider){
 
 	$httpProvider.interceptors.push('AuthInterceptor');
-
-})
-
-
-.controller('homeController', function(){
-	var vm = this;
-	vm.message = 'the home page';
-
-})
-
-
-.controller('userListController', function($http){
-	var vm = this;
-
 
 })

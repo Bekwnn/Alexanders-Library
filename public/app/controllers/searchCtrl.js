@@ -1,6 +1,6 @@
-angular.module('searchCtrl', ['searchService'])
+angular.module('searchCtrl', ['bookService'])
 
-.controller('searchController', function(Search){
+.controller('searchController', function(Books){
 	var vm = this;
 
 	vm.message = 'the search page';
@@ -10,8 +10,17 @@ angular.module('searchCtrl', ['searchService'])
 	vm.search = function(){
 		vm.processing = true;
 
-		Search.search(vm.searchData)
+		Books.search(vm.searchData)
 			.success(function(data){
+				// Set search results message
+				vm.resultsMessage = "Results for:";
+				for (key in vm.searchData){
+					if(vm.searchData[key].length > 0)
+						vm.resultsMessage += " "+vm.searchData[key];
+				}
+				if(vm.resultsMessage === "Results for:")
+					vm.resultsMessage = "All Results";
+
 				vm.processing = false;
 				vm.results = data;
 				vm.searchData = { title: "", subject: "", author: "" };
@@ -22,13 +31,12 @@ angular.module('searchCtrl', ['searchService'])
 
 	vm.reserve = function(book){
 		vm.processing = true;
-		console.log(book);
 	};
 
-	Search.all()
+	Books.all()
 		.success( function(data) {
 			vm.results = data;
-			console.log(data);
+			vm.resultsMessage = "All Results"
 		});
 	
 })

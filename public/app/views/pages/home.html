@@ -1,4 +1,41 @@
 <div class="jumbotron text-center"> 
     <h1>Home Page</h1>
     <p>{{ home.message }}</p> 
+    <p>{{ home.user.first_name }} {{ home.user.last_name }}</p>
+    <p>{{ home.user._id }}</p>
+    <p>{{ home.user.email }}</p>
 </div>
+<div class="row">
+	<div class="col-xs-8">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>Reservations</h3>
+			</div>
+			<div class="panel-body">
+				<div>{{ home.resultsMessage }}</div>
+				<div ng-repeat="result in home.results">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<div class="col-xs-4">Book Id: {{ result.book_id}}</div>
+							<div class="col-xs-4">User Id: {{ result.user_id}}</div>
+							<div class="col-xs-2">Start Date: {{ result.start_date | date:'medium'}}</div>
+							<div class="col-xs-2">End Date: {{ result.end_date | date:'medium'}}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-4">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>Credits</h3>
+			</div>
+			<div class="panel-body">
+				<p>Credit Display</p>
+				<p>{{ home.user.credits | currency }}</p>
+			</div>
+		</div>
+	</div>
+</div>
+

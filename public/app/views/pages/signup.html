@@ -1,74 +1,78 @@
-<div class = "page-header">
-	<h1 ng-if="user.type == 'create'">Create User</h1>
-	<h1 ng-if="user.type == 'edit'" >Edit User</h1>
-	
-	
-	
-	
-	<form class = "form-horizontal" ng-submit = "user.saveUser()">
-		
-		<div class = "form-group">
-			<label class = "col-sm-2 control-label">First Name</label>
-			<div class = "col-sm-6">
-				<input type = "text" class = "form-control" ng-model = "user.userData.first_name">
+<div class="row col-sm-6 col-sm-offset-3">
+	<div class="jumbotron">
+			<div class="page-header">
+			<h1 ng-if="user.type == 'create'">Sign-up</h1>
+			<h1 ng-if="user.type == 'edit'" >Edit User</h1>
+			
+			<form name="signupForm" class="form-horizontal" ng-submit="user.saveUser(signupForm.$valid)" novalidate>
 				
-			</div>
-		</div>
-					
-		<div class = "form-group">
-			<label class = "col-sm-2 control-label">Last Name</label>
-			<div class = "col-sm-6">
-				<input type = "text" class = "form-control" ng-model = "user.userData.last_name">
-			</div>
-		</div>
-		
-		<div class = "form-group">
-			<label class = "col-sm-2 control-label">Password</label>
-			<div class = "col-sm-6">
-				<input type = "password" class = "form-control" ng-model = "user.userData.password">
-			</div>
-		</div>
-		
-		<div class = "form-group">
-			<label class = "col-sm-2 control-label">Phone Number</label>
-			<div class = "col-sm-6">
-				<input type = "text" class = "form-control" ng-model = "user.userData.phone">
-			</div>
-		</div>
-		
-		<div class = "form-group">
-			<label class = "col-sm-2 control-label">Address</label>
-			<div class = "col-sm-6">
-				<input type = "text" class = "form-control" ng-model = "user.userData.address">
-			</div>
-		</div>
-		
-		<div class = "form-group">
-			<label class = "col-sm-2 control-label">E-Mail</label>
-			<div class = "col-sm-6">
-				<input type = "text" class = "form-control" ng-model = "user.userData.email">
-			</div>
-		</div>
-		
-			<div class = "form-group">
-			<label class = "col-sm-2 control-label">Student Number</label>
-			<div class = "col-sm-6">
-				<input type = "text" class = "form-control" ng-model = "user.userData.student_no">
-			</div>
-		</div>
-		
-		<div class = "alert alert-info" >{{user.message}}</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">First Name</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" ng-model="user.userData.first_name">
+						
+					</div>
+				</div>
+							
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Last Name</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" ng-model="user.userData.last_name">
+					</div>
+				</div>
 
-		
-		<button type="submit" class="btn btn-block btn-primary">
+				<div class="form-group" ng-class="{ 'has-error' : signupForm.email.$invalid && !signupForm.email.$pristine }">
+					<label class="col-sm-4 control-label">E-Mail</label>
+					<div class= "col-sm-8">
+						<input name="email" type="email" class="form-control" ng-model="user.userData.email" required>
+					</div>
+					<p class="col-sm-8 col-sm-offset-4 warning" ng-show="signupForm.email.$invalid" class="help-block"><small>Email is required.</small></p>
+				</div>
 				
-				<span>Create</span>
-				<span ng-if="login.processing" class = "spinner"><span class = "fa fa-refresh"></span></span>
+				<div class="form-group" ng-class="{ 'has-error' : signupForm.password.$invalid && !signupForm.password.$pristine }">
+					<label class="col-sm-4 control-label">Password</label>
+					<div class="col-sm-8">
+						<input name="password" type="password" class="form-control" ng-model="user.userData.password" ng-minlength="4" required>
+					</div>
+					<p class="col-sm-8 col-sm-offset-4 warning" ng-show="signupForm.password.$invalid" class="help-block"><small>Password is required.</small></p>
+				</div>
 				
-		</button>
-		
-		
-	<div class = "form-group">
-	
-	
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Phone Number</label>
+					<div class="col-sm-8">
+						<input name="tel" type="number" class="form-control" ng-model="user.userData.phone">
+					</div>
+					<p class="col-sm-8 col-sm-offset-4 warning" ng-show="signupForm.tel.$invalid && !signupForm.tel.$pristine" class="help-block"><small>Must be a number.</small></p>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Address</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" ng-model="user.userData.address">
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Student Number</label>
+					<div class="col-sm-8">
+						<input name="stu_no" type="number" class="form-control" ng-model="user.userData.student_no">
+					</div>
+					<p class="col-sm-8 col-sm-offset-4 warning" ng-show="signupForm.stu_no.$invalid && !signupForm.stu_no.$pristine" class="help-block"><small>Must be a number.</small></p>
+				</div>
+				
+				<div class="alert alert-info" >{{user.message}}</div>
+
+				
+				<button type="submit" class="btn btn-block btn-primary" ng-disabled="signupForm.$invalid">
+						
+						<span>Submit</span>
+						<span ng-if="login.processing" class="spinner"><span class="fa fa-refresh"></span></span>
+						
+				</button>
+				
+			</form>
+			
+			
+		</div>
+	</div>
 </div>

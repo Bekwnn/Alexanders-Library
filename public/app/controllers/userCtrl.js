@@ -18,21 +18,23 @@ angular.module('userCtrl', ['userService'])
 	var vm = this;
 	vm.type = 'create';
 	
-	vm.saveUser = function(){
+	vm.saveUser = function(validForm){
 	
-		vm.processing = true;
-		vm.message = '';
-		
-		
-		Users.create(vm.userData)
-			.success(function(data){
-				vm.processing = false;
-				
-				vm.userData = {};
-				vm.message = data.message;
+		if(validForm){
+			vm.processing = true;
+			vm.message = '';
+			
+			Users.create(vm.userData)
+				.success(function(data){
+					vm.processing = false;
+					
+					vm.userData = {};
+					vm.message = data.message;
 
-		});
-	
+			});
+		}else{
+			vm.message = "Form Invalid";
+		}
 	};
 
 });

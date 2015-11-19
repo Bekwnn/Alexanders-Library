@@ -15,22 +15,27 @@ angular.module('mainCtrl', [])
 			});
 	});
 
-	vm.doLogin = function() {
-		vm.processing = true;
-		vm.error = '';
-	
-		Auth.login(vm.loginData.email, vm.loginData.password)
-			.success(function(data) {
-				vm.processing = false;
-				vm.loggedIn = data.success;
-				if(data.success)
-					$location.path('/search');
-				else{
-					vm.loginData.email = "";
-					vm.loginData.password = "";
-					vm.error = data.message;
-				}
-			});
+	vm.doLogin = function(validForm) {
+		if(validForm){
+			vm.processing = true;
+			vm.error = '';
+		
+			Auth.login(vm.loginData.email, vm.loginData.password)
+				.success(function(data) {
+					vm.processing = false;
+					vm.loggedIn = data.success;
+					if(data.success)
+						$location.path('/search');
+					else{
+						vm.loginData.email = "";
+						vm.loginData.password = "";
+						vm.error = data.message;
+					}
+				});
+		} else {
+			vm.submitted = true;
+			vm.error = "Login information incorrect."
+		}
 	};
 
 	vm.doLogout = function() {
