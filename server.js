@@ -53,6 +53,10 @@ app.use('/', basicRouter);          // basic route
 app.use('/admin', adminRouter);     // admin route
 app.use('/api', apiRoutes);         // api route
 
+app.use(function(req, res) {
+    res.sendfile(__dirname + '/public/app/views/index.html');
+});
+
 // START THE SERVER
 //======================================
 app.listen(port);

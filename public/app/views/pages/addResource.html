@@ -7,7 +7,7 @@
 			<!--date_added: Date,
 			date_sold: Date !-->
 			
-			<form class="form-horizontal" ng-submit="book.saveBook()"> <!--determine controller-->
+			<form name="addForm" class="form-horizontal" ng-submit="book.saveBook(addForm.$valid)"> <!--determine controller-->
 				
 				<div class="form-group" >
 					<label class="col-sm-4 control-label">Title</label>
@@ -84,6 +84,5 @@
 				</button>
 				
 			</form>
-q
 	</div>
 </div>
