@@ -14,6 +14,8 @@ module.exports = function(app, express) {
 
 	var apiRouter = express.Router();
 	
+//	AUTHENTICATION TOKEN
+//================================================
 	apiRouter.post('/authenticate', function(req, res) {
 		console.log(req.body.username);
 		
@@ -57,9 +59,13 @@ module.exports = function(app, express) {
 		});
 	});
 	
-	apiRouter.use('/authenticate', function(req, res, next) { // needs mount path (can't login since it requires token)
-		// log
-		console.log('Api used.');
+//	AUTHORIZATION MIDDLEWARE
+//=======================================
+	// middleware now used on every route
+	// gives req.auth = false if user isn't authenticated and continues on
+	apiRouter.use('/', function(req, res, next) {
+		// log authentication call
+		console.log('User authentication called.');
 		
 		// check header, url, or post params for token
 		var token = req.body.token || req.param('token') || req.headers['x-access-token'];
@@ -67,25 +73,44 @@ module.exports = function(app, express) {
 		// decode token
 		if (token) {
 			// verify secret key and check expiration
-			jwt.verify(token, secretKey, function(err, decoded) {
+			jwt.verify(token, secretKey, function(err, decoded) { //TODO admin auth
 				if (err) {
-					return res.json({
-						success: false,
-						message: 'Token authentication failed.'
-					});
+					req.auth = false;
+					req.admin = false;
 				} else {
 					req.decoded = decoded;
-					next();
+					req.auth = true;
+					req.admin = false;
 				}
+				next();
 			});
 		} else {
-			// if there is no token return 403
-			return res.status(403).send({
-				success: false,
-				message: 'No token provided.'
-			});
+			req.auth = false;
+			req.admin = false;
+			next();
 		}
 	});
+	
+	// middleware for halting and rejecting without login
+	var authRequiredPaths = {
+		uses: ['/user/:user_id'],
+		gets: ['/me'],
+		posts: ['/book/:book_id/reservation']
+	};
+	
+	var authRequiredJson = {
+		success: false,
+		message: "Authentication required."
+	};
+	
+	var authRequired = function(req, res, next) {
+		if (!req.auth) return res.json(authRequiredJson);
+		else next();
+	};
+	
+	apiRouter.use(authRequiredPaths.uses, authRequired);
+	apiRouter.get(authRequiredPaths.gets, authRequired);
+	apiRouter.post(authRequiredPaths.posts, authRequired);
 	
 	// test route to make sure api is working
 	apiRouter.get('/', function(req, res) {
@@ -94,10 +119,13 @@ module.exports = function(app, express) {
 		});
 	});
 
+	// test route for login
 	apiRouter.get('/me', function(req, res) { 
 		res.send(req.decoded);
 	});
 	
+//	USERS
+//===============================================
 	apiRouter.route('/user')
 		.get(function(req, res) { // fetches all users TODO: admin only
 			User.find(function(err, users) {
@@ -130,6 +158,24 @@ module.exports = function(app, express) {
 			});
 		});
 	
+	apiRouter.route('/user/:user_id')
+		.get(function(req, res) {	//get single user
+			if (req.decoded._id != req.params.user_id) {
+				res.json({
+					success: false,
+					message: "You do not have permission to access that user."
+				});
+			} else {
+				User.findById(req.params.user_id, function(err, user) {
+					if (err) res.send(err);
+					
+					res.json(user);
+				});
+			}
+		});
+	
+//	BOOKS
+//=================================================
 	apiRouter.route('/book')
 		.get(function(req, res) {
 			// find books through search params
@@ -137,11 +183,13 @@ module.exports = function(app, express) {
 			if (req.query['q'])
 			{
 				Book.find(
-				{$or: [	// compares whole query for exact match against any of fields TODO: improve search
+				{$or: [	// compares whole query for exact match against any of fields TODO: fuzzy search
 					{title: req.query.q},
 					{author: req.query.q},
 					{subject: req.query.q},
-					{condition: req.query.q}
+					{condition: req.query.q},
+					{isbn10: req.query.q},
+					{isbn13: req.query.q}
 				]},
 				function(err, books) {
 					if (err) res.send(err);
@@ -190,12 +238,50 @@ module.exports = function(app, express) {
 				
 				res.json(book);
 			});
+		});
+		
+//	RESERVATIONS
+//================================================	
+	apiRouter.route('/reservation')
+		.get(function(req, res) {	//fetches all reservations TODO: admin only
+			Reservation.find(function(err, reservations) {
+				if (err) res.send(err);
+				
+				res.json(reservations);
+			});
+		});
+		
+	apiRouter.route('/book/:book_id/reservation')
+		.get(function(req, res) {	//gets reservation of a book
+			Reservation.findOne(
+				{
+					book_id: req.params.book_id
+				},
+				function(err, reservation) {
+					if (err) res.send(err);
+					
+					if (!reservation) {
+						res.json({
+							reserved: false,
+							message: "This book is not currently reserved."
+						});
+					} else if (req.decoded._id == reservation.user_id) {
+						res.json(reservation);
+					} else {
+						res.json({	//only returns reservation info if it's the user's reservation
+							reserved: true,
+							message: "This book is reserved by someone else."
+						});
+					}
+				}
+			);
 		})
 		.post(function(req, res) { // reserves the book
+			
 			var reservation = new Reservation();	// create new instance of reservation model
 			// set the new reservation
 			reservation.book_id = req.params.book_id;
-			reservation.user_id = req.body.user_id; //TODO: grab user_id from authorization token
+			reservation.user_id = req.decoded._id; 
 			var now = new Date();
 			reservation.start_date = now;
 			reservation.end_date = new Date().setDate(now.getDate()+7); //user has 7 days before reservation expires
@@ -212,14 +298,27 @@ module.exports = function(app, express) {
 			});
 		});
 		
-	apiRouter.route('/reservation')
-		.get(function(req, res) {	//fetches all reservations TODO: admin only
-			Reservation.find(function(err, reservations) {
-				if (err) res.send(err);
-				
-				res.json(reservations);
-			});
+	apiRouter.route('/user/:user_id/reservation')
+		.get(function(req, res) {	//gets a user's book reservations
+			if (req.decoded._id == req.params.user_id) {
+				res.json({
+					success: false,
+					message: "You do not have permission to access that user's reservations."
+				});
+			} else {
+			
+				Reservation.find(
+					{
+						user_id: req.params.user_id
+					},
+					function(err, reservations) {
+						if (err) res.send(err);
+						
+						res.json(reservations);
+				});
+			}
 		});
-	
+		
+	// END API
 	return apiRouter;
 };
