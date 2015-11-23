@@ -91,7 +91,7 @@ module.exports = function(app, express) {
 		}
 	});
 	
-	// middleware for halting and rejecting without login
+	// middleware which rejects users who are not logged in
 	var authRequiredPaths = {
 		uses: ['/user/:user_id'],
 		gets: ['/me'],
@@ -252,7 +252,7 @@ module.exports = function(app, express) {
 		});
 		
 	apiRouter.route('/book/:book_id/reservation')
-		.get(function(req, res) {	//gets reservation of a book
+		.get(function(req, res) {	//checks whether the book is reserved
 			Reservation.findOne(
 				{
 					book_id: req.params.book_id
@@ -265,12 +265,11 @@ module.exports = function(app, express) {
 							reserved: false,
 							message: "This book is not currently reserved."
 						});
-					} else if (req.decoded._id == reservation.user_id) {
-						res.json(reservation);
 					} else {
-						res.json({	//only returns reservation info if it's the user's reservation
+						res.json({
 							reserved: true,
-							message: "This book is reserved by someone else."
+							message: "This book is reserved.",
+							reservation_ends: reservation.end_date
 						});
 					}
 				}
