@@ -5,8 +5,9 @@ var EmployeeSchema = new mongoose.Schema({
 	_id: ObjectId,
 	first_name: String,
 	last_name: String,
+	email: { type: String, unique: true },
 	username: { type: String, unique: true },
-	password: String
+	password: { type: String, required: true, select: false },
 });
 
 // Export the schema

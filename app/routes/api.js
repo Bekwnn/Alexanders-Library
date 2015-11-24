@@ -3,6 +3,7 @@ var modelPath = '../models/'
 var User        = require(modelPath + 'User.js');
 var Book        = require(modelPath + 'Book.js');
 var Reservation = require(modelPath + 'Reservation.js');
+var Employee    = require(modelPath + 'Employee.js');
 
 // INCLUDE MODULES ---------------------
 var jwt    = require('jsonwebtoken');
@@ -17,26 +18,22 @@ module.exports = function(app, express) {
 //	AUTHENTICATION TOKEN
 //================================================
 	apiRouter.post('/authenticate', function(req, res) {
-		console.log(req.body.username);
 		
 		// find the user
-		// ask for password explicitly since it's hidden
-		User.findOne({
-			email: req.body.email
-		}).select('password').exec(function(err, user) {
+		var auth = function(err, userOrEmp) {
 			if (err) throw err;
 			
 			//no user with name was found
-			if (!user) {
+			if (!userOrEmp) {
 				res.json({
 					success: false,
 					message: 'Login information incorrect.'
 				});
 			}
-			else if (user)
+			else if (userOrEmp)
 			{
 				//check if pw matches
-				var validPassword = user.comparePassword(req.body.password);
+				var validPassword = userOrEmp.comparePassword(req.body.password);
 				if (!validPassword) {
 					res.json({
 						success: false,
@@ -44,7 +41,7 @@ module.exports = function(app, express) {
 					});
 				} else {
 					//if user is found and pw is right create a token
-					var token = jwt.sign(user, secretKey, {
+					var token = jwt.sign(userOrEmp, secretKey, {
 						expiresInMinutes: 1440
 					});
 					
@@ -56,7 +53,36 @@ module.exports = function(app, express) {
 					});
 				}
 			}
+		}
+		
+		var isEmployee = false;
+		// look for an employee first
+		// ask for password explicitly since it's hidden
+		Employee.findOne({
+			email: req.body.email
+		}).select('password').exec(function(err, employee) {
+		
+			if (employee) {
+			
+				employee._doc.admin = true;
+				auth(err, employee);
+				
+			} else {	// if we couldn't find an employee, search for a user
+			
+				User.findOne({
+					email: req.body.email
+				}).select('password').exec(function(err, user) {
+					user._doc.admin = false;
+					auth(err, user);
+				});
+				
+			}
 		});
+		
+		// look for a user
+		/*User.findOne({
+			email: req.body.email
+		}).select('password').exec(auth);*/
 	});
 	
 //	AUTHORIZATION MIDDLEWARE
@@ -76,41 +102,59 @@ module.exports = function(app, express) {
 			jwt.verify(token, secretKey, function(err, decoded) { //TODO admin auth
 				if (err) {
 					req.auth = false;
-					req.admin = false;
 				} else {
 					req.decoded = decoded;
 					req.auth = true;
-					req.admin = false;
 				}
 				next();
 			});
 		} else {
 			req.auth = false;
-			req.admin = false;
 			next();
 		}
 	});
 	
-	// middleware which rejects users who are not logged in
+	// USER LOGIN REQUIRED MIDDLEWARE
+	// DO NOT USE EMPTY ARRAY; MATCHES ALL PATHS
 	var authRequiredPaths = {
 		uses: ['/user/:user_id'],
-		gets: null,	//empty array '[]' matches any DON'T USE
+		gets: null,	//no paths as of right now
 		posts: ['/book/:book_id/reservation']
-	};
-	
-	var authRequiredJson = {
-		success: false,
-		message: "Authentication required."
-	};
+	}
 	
 	var authRequired = function(req, res, next) {
-		if (!req.auth) return res.json(authRequiredJson);
-		else next();
+		if (!req.auth) {
+			return res.json({
+				success: false,
+				message: "Authentication required."
+			});
+		} else next();
 	};
 	
 	apiRouter.use(authRequiredPaths.uses, authRequired);
 	//apiRouter.get(authRequiredPaths.gets, authRequired);
 	apiRouter.post(authRequiredPaths.posts, authRequired);
+	
+	// ADMIN REQUIRED LOGIN MIDDLEWARE
+	// DO NOT USE EMPTY ARRAY
+	var adminRequiredPaths = {
+		uses: null, //no paths as of right now
+		gets: ['/user', '/reservation'],
+		posts: ['/book']
+	}
+	
+	var adminRequired = function(req, res, next) {
+		if (!req.decoded.admin) {
+			return res.json({
+				success: false,
+				message: "Admin required."
+			});
+		} else next();
+	};
+	
+	//apiRouter.use(adminRequiredPaths.uses, adminRequired);
+	apiRouter.get(adminRequiredPaths.gets, adminRequired);
+	apiRouter.post(adminRequiredPaths.posts, adminRequired);
 	
 	// test route to make sure api is working
 	apiRouter.get('/', function(req, res) {
@@ -119,7 +163,7 @@ module.exports = function(app, express) {
 		});
 	});
 
-	// test route for login
+	// get the current user (do not call for employees (TODO))
 	apiRouter.get('/me', function(req, res) {
 		if (req.auth) {	// if there is a user logged in, return them
 			User.findById(req.decoded._id, function(err, user) {
