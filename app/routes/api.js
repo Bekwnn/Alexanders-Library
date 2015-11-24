@@ -94,7 +94,7 @@ module.exports = function(app, express) {
 	// middleware which rejects users who are not logged in
 	var authRequiredPaths = {
 		uses: ['/user/:user_id'],
-		gets: ['/me'],
+		gets: null,	//empty array '[]' matches any DON'T USE
 		posts: ['/book/:book_id/reservation']
 	};
 	
@@ -109,7 +109,7 @@ module.exports = function(app, express) {
 	};
 	
 	apiRouter.use(authRequiredPaths.uses, authRequired);
-	apiRouter.get(authRequiredPaths.gets, authRequired);
+	//apiRouter.get(authRequiredPaths.gets, authRequired);
 	apiRouter.post(authRequiredPaths.posts, authRequired);
 	
 	// test route to make sure api is working
@@ -120,8 +120,22 @@ module.exports = function(app, express) {
 	});
 
 	// test route for login
-	apiRouter.get('/me', function(req, res) { 
-		res.send(req.decoded);
+	apiRouter.get('/me', function(req, res) {
+		if (req.auth) {	// if there is a user logged in, return them
+			User.findById(req.decoded._id, function(err, user) {
+				if (err) res.send(err);
+				
+				res.json({
+					auth: req.auth,
+					user: user
+				});
+			});
+		} else {
+			res.json({
+				auth: req.auth,
+				user: null
+			});
+		}
 	});
 	
 //	USERS
