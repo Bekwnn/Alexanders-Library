@@ -14,4 +14,4 @@ angular.module('libraryApp', [
 
 	$httpProvider.interceptors.push('AuthInterceptor');
 
-})
+});

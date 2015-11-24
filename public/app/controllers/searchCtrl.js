@@ -14,7 +14,7 @@ angular.module('searchCtrl', ['bookService'])
 			.success(function(data){
 				// Set search results message
 				vm.resultsMessage = "Results for:";
-				for (key in vm.searchData){
+				for (var key in vm.searchData){
 					if(vm.searchData[key].length > 0)
 						vm.resultsMessage += " "+vm.searchData[key];
 				}
@@ -36,7 +36,7 @@ angular.module('searchCtrl', ['bookService'])
 	Books.all()
 		.success( function(data) {
 			vm.results = data;
-			vm.resultsMessage = "All Results"
+			vm.resultsMessage = "All Results";
 		});
 	
-})
+});

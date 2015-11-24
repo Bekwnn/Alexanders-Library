@@ -12,7 +12,7 @@ angular.module('userService', [])
 	myFactory.create = function(formData){
 		console.log(formData);
 		return $http.post('/api/user', formData);
-	}
+	};
 
 	return myFactory;
 
