@@ -1,6 +1,6 @@
-angular.module('searchCtrl', ['bookService'])
+angular.module('searchCtrl', ['bookService','userService'])
 
-.controller('searchController', function(Books){
+.controller('searchController', function(Books,Users){
 	var vm = this;
 
 	vm.message = 'the search page';
@@ -31,6 +31,7 @@ angular.module('searchCtrl', ['bookService'])
 
 	vm.reserve = function(book){
 		vm.processing = true;
+		
 	};
 
 	Books.all()

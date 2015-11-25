@@ -13,6 +13,7 @@ angular.module('mainCtrl', [])
 			.then(function(data) {
 				vm.user = data;
 				$rootScope.user = data.data.user;
+				console.log(data);
 			});
 	});
 

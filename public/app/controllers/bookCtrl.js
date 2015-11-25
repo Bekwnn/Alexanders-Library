@@ -7,9 +7,7 @@ angular.module('bookCtrl', ['bookService'])
 	
 	vm.saveBook = function(validForm){
 		if(validForm){
-			console.log('SAVEBOOK IS BEING CALLED');
-			console.log(vm.bookData);
-		
+
 			//vm.adding = true;
 			vm.message = '';
 			
