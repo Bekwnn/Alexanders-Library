@@ -13,6 +13,8 @@ angular.module('mainCtrl', [])
 			.then(function(data) {
 				vm.user = data;
 			});
+
+		console.log(vm.user);
 	});
 
 	vm.doLogin = function(validForm) {
@@ -34,7 +36,7 @@ angular.module('mainCtrl', [])
 				});
 		} else {
 			vm.submitted = true;
-			vm.error = "Login information incorrect."
+			vm.error = "Login information incorrect.";
 		}
 	};
 

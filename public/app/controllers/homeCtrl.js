@@ -5,11 +5,12 @@ angular.module('homeCtrl',['bookService'])
 
 	vm.message = "a homepage";
 
-	Books.reservations()
+	/*Books.reservations()
 		.success(function(data){
 			if (data.length === 0)
 				vm.resultsMessage = "No reservations";
 			vm.results = data;
 		});
+*/
 
-})
+});

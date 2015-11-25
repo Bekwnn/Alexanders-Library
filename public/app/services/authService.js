@@ -1,4 +1,3 @@
-'use strict';
 angular.module('authService', [])
 
     // FACTORY for login, logout, and getting user info
