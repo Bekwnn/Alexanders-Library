@@ -55,13 +55,13 @@
 				<a class="navbar-brand" href="/">SubText Resource Manager</a>
 			</div>
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="/"><i class="fa fa-home"></i> Home</a></li>
+				<li><a href="/"><i class="fa fa-home" ></i> Home</a></li>
 				<li><a href="/search"><i class="fa fa-search"></i> Search</a></li>
 				<li ng-if="!main.loggedIn"><a href="/login"><i class="fa fa-sign-in"></i> Login</a></li>
 				<li ng-if="main.loggedIn"><a href="/login" ng-click="main.doLogout()"><i class="fa fa-sign-out"></i> Logout</a></li>
-				<li><a href="/users"><i class="fa fa-user"></i> Users</a></li>
-				<li><a href="/signup"><i class="fa fa-pencil"></i> Signup</a></li>
-				<li><a href="/new"><i class="fa fa-book"></i> Add Book</a></li>
+				<li ng-if = "main.user.admin"><a href="/users"><i class="fa fa-user"></i> Users</a></li> 
+				<li ng-if="!main.loggedIn"><a href="/signup"><i class="fa fa-pencil"></i> Signup</a></li>
+				<li ng-if = "main.user.admin"><a href="/new"><i class="fa fa-book"></i> Add Book</a></li>
 
 			</ul> 
 		</nav>
