@@ -108,7 +108,7 @@ module.exports = function(app, express) {
 		})
 		.post(function(req, res) {
 			var user = new User();	// create new instance of user model
-			console.log(req.body);
+			console.log('logging '+req.body);
 			// set the new user from the post params
 			user.student_no = req.body.student_no;
 			user.first_name = req.body.first_name;
@@ -117,7 +117,10 @@ module.exports = function(app, express) {
 			user.email = req.body.email;
 			user.phone = req.body.phone;
 			user.address = req.body.address;
+			user.credits = 0;
 			
+			console.log('user credits '+user.credits);
+
 			// save the user
 			user.save(function(err) {
 				if (err) res.send(err);
@@ -129,6 +132,16 @@ module.exports = function(app, express) {
 				}
 			});
 		});
+	
+	apiRouter.route('/user/:user_id')
+		.get(function(req, res) { // fetches all users TODO: admin only
+			User.findById(req.params.user_id, function(err, user) {
+				if (err) res.send(err);
+				
+				res.json(user);
+			});
+	});
+	
 	
 	apiRouter.route('/book')
 		.get(function(req, res) {
@@ -170,6 +183,7 @@ module.exports = function(app, express) {
 			book.subject = req.body.subject;
 			book.condition = req.body.condition;
 			book.location = req.body.location;
+			book.credits = 15; //default numver of credits
 			
 			// save the book
 			book.save(function(err) {

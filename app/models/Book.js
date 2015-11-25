@@ -15,7 +15,8 @@ var BookSchema = new mongoose.Schema({
 	condition: String,
 	location_in_store: String,
 	date_added: Date,
-	date_sold: Date
+	date_sold: Date,
+	credits:Number
 });
 
 // Export the schema

@@ -78,6 +78,8 @@
 								<div class="col-sm-2">
 									<br>
 									<button class="btn btn-info pull-right" ng-click="search.reserve(result)">Reserve</button>
+									<button class="btn btn-success pull-right" ng-click="search.purchase(result)">Purchase</button>
+
 								</div>
 							</div>
 						</div>
@@ -86,4 +88,8 @@
 			</div>
 		</div>
 	</div>
+	<div>
+		<p>{{ search.credits | currency }}</p>
+	</div>
+	
 </div>

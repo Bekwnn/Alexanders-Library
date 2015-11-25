@@ -24,9 +24,11 @@ angular.module('userCtrl', ['userService'])
 			vm.processing = true;
 			vm.message = '';
 			
+			
 			Users.create(vm.userData)
 				.success(function(data){
 					vm.processing = false;
+					
 					
 					vm.userData = {};
 					vm.message = data.message;
