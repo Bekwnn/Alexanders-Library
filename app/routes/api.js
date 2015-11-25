@@ -417,6 +417,8 @@ module.exports = function(app, express) {
 			reservation.start_date = now;
 			reservation.end_date = new Date().setDate(now.getDate()+7); //user has 7 days before reservation expires
 			
+			console.log(reservation);
+
 			// save the reservation
 			reservation.save(function(err) {
 				if (err) res.send(err);

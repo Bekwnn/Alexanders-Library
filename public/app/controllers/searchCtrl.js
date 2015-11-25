@@ -31,7 +31,11 @@ angular.module('searchCtrl', ['bookService','userService'])
 
 	vm.reserve = function(book){
 		vm.processing = true;
-		
+		vm.reservationMessage = book.title;
+		Books.reserve(book._id)
+			.success( function(data) {
+				vm.reservationMessage = vm.reservationMessage + " Reserved";
+			});
 	};
 
 	Books.all()
