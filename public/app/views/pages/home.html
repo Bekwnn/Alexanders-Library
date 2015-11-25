@@ -6,7 +6,7 @@
     <p>{{ home.user.email }}</p>
 </div>
 <div class="row">
-	<div class="col-xs-8">
+	<div class="col-xs-10">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3>Reservations</h3>
@@ -16,24 +16,56 @@
 				<div ng-repeat="result in home.results">
 					<div class="panel panel-default">
 						<div class="panel-body">
-							<div class="col-xs-4">Book Id: {{ result.book_id}}</div>
-							<div class="col-xs-4">User Id: {{ result.user_id}}</div>
-							<div class="col-xs-2">Start Date: {{ result.start_date | date:'medium'}}</div>
-							<div class="col-xs-2">End Date: {{ result.end_date | date:'medium'}}</div>
+							<div class="row">
+								<h3 class="col-xs-10"><strong>{{ result.title }}</strong> ({{ result.book_id }})</h3>
+								<h3 class="col-xs-2"><em class="pull-right">{{ result.price | currency }}</em></h3>
+							</div>
+							<br />
+							<div class="row">
+								<div class="col-sm-12">
+									<table class="table table-striped table-bordered table-condensed">
+										<tbody>
+											<tr>
+												<td class="col-sm-2">Start Date</td>
+												<td class="col-sm-4">{{ result.start_date | date:'medium'}}</td>
+												<td class="col-sm-2">End Date</td>
+												<td class="col-sm-4">{{ result.end_date | date:'medium'}}</td>
+											</tr>
+											<tr>
+												<td class="col-sm-2">Author</td>
+												<td class="col-sm-4">{{ result.author }}</td>
+												<td class="col-sm-2">Condition</td>
+												<td class="col-sm-4">{{ result.condition }}</td>
+											</tr>
+											<tr>
+												<td class="col-sm-2">Edition</td>
+												<td class="col-sm-4">{{ result.edition }}</td>
+												<td class="col-sm-2">ISBN</td>
+												<td class="col-sm-4">{{ result.isbn10 }}</td>
+											</tr>
+											<tr>
+												<td class="col-sm-2">Location</td>
+												<td class="col-sm-4">{{ result.location_in_store }}</td>
+												<td class="col-sm-2">Subject</td>
+												<td class="col-sm-4">{{ result.subject }}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class="col-xs-4">
+	<div class="col-xs-2">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h3>Credits</h3>
+				<h3>Balance</h3>
 			</div>
 			<div class="panel-body">
-				<p>Credit Display</p>
-				<p>{{ home.credits | currency }}</p>
+				<h3 class="col-sm-8 col-sm-offset-2">{{ home.user.balance | currency }}</h3>
 			</div>
 		</div>
 	</div>

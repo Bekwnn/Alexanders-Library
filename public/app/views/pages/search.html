@@ -1,40 +1,74 @@
 <div class="jumbotron text-center"> 
-    <h1>Search Page</h1>
-</div>
-<div class="row">
-	<!-- Search Panel -->
-	<div class="col-sm-4">
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h3>Search Criteria</h3>
-			</div>
-
-			<div class="panel-body">
-				<form class="form form-inline" ng-submit="search.search()">
-						<div class="form-group row">
-							<label class="col-xs-4">Title:</label>
-							<input type="text" class="form-control col-xs-8" ng-model="search.searchData.title">
-
-							<label class="col-xs-4">Subject:</label>
-							<input type="text" class="form-control col-xs-8" ng-model="search.searchData.subject">
-
-							<label class="col-xs-4">Author:</label>
-							<input type="text" class="form-control col-xs-8" ng-model="search.searchData.author">
-
-							<label class="col-xs-4">ISBN:</label>
-							<input type="text" class="form-control col-xs-8" ng-model="search.searchData.isbn10">
-
-						</div>
-						<div class="form-group pull-right">
-							<br>
-								<button type="submit" class="btn btn-success">Search</button>
-						</div>
-				</form>
+	<h1>Search</h1>
+	<form class="form row" ng-submit="search.search()">
+		<div class="input-group col-xs-8 col-xs-offset-2">
+			<input type="text" class="form-control" ng-model="search.searchData.general">
+			<span class="input-group-btn">
+				<button class="btn btn-success" type="submit">
+					Search
+				</button>
+			</span>
+		</div>
+	</form>
+	<div class="row">
+		<div class="col-xs-8 col-xs-offset-2">
+			<div class="pull-right">
+				<a href="#advanced" data-toggle="collapse"><small>Advanced search</small></a>
 			</div>
 		</div>
 	</div>
+	<div id="advanced" class="collapse">
+		<form class="form form-inline row" ng-submit="search.search()">
+			<div class="form-group">
+				<div class="row small-margin">
+					<div class="col-xs-3">
+						<label class="vcenter">Title:</label>
+					</div>
+					<div class="col-xs-9">
+						<input type="text" class="form-control" ng-model="search.searchData.title">
+					</div>
+				</div>
+
+				<div class="row small-margin">
+					<div class="col-xs-3">
+						<label class="vcenter">Subject:</label>
+					</div>
+					<div class="col-xs-9">
+						<input type="text" class="form-control" ng-model="search.searchData.subject">
+					</div>
+				</div>
+
+				<div class="row small-margin">
+					<div class="col-xs-3">
+						<label class="vcenter">Author:</label>
+					</div>
+					<div class="col-xs-9">
+						<input type="text" class="form-control" ng-model="search.searchData.author">
+					</div>
+				</div>
+
+				<div class="row small-margin">
+					<div class="col-xs-3">
+						<label class="vcenter">ISBN:</label>
+					</div>
+					<div class="col-xs-9">
+						<input type="text" class="form-control" ng-model="search.searchData.isbn10">
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-xs-6 col-xs-offset-3">
+						<button type="submit" class="btn btn-success">Search</button>
+					</div>
+				</div>
+			</div>
+		</form>
+
+	</div>
+</div>
+<div class="row">
 	<!-- Results Panel -->
-	<div class="col-sm-8">
+	<div class="col-sm-12">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<div class="panel-title">
@@ -46,7 +80,7 @@
 					<div class="panel panel-default">
 						<div class="panel-body">
 							<div class="row">
-								<div class="col-sm-10"><strong>{{ result.title }}</strong></div>
+								<div class="col-sm-10"><big><strong>{{ result.title }}</strong></big></div>
 								<div class="col-sm-2"><em class="pull-right">{{ result.price | currency }}</em></div>
 							</div>
 							<br>

@@ -23,6 +23,10 @@ angular.module('bookService', [])
 		return $http.get('/api/book?q='+searchString);
 	};
 
+	myFactory.get = function(id) {
+		return $http.get('/api/book/'+id);
+	};
+
 	myFactory.reservations = function() {
 		return $http.get('/api/reservation');
 	};
