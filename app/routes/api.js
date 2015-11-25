@@ -370,7 +370,6 @@ module.exports = function(app, express) {
 					},
 					function(err, reservations) {
 						if (err) res.send(err);
-						
 						res.json(reservations);
 				});
 			}

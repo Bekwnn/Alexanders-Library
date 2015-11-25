@@ -12,9 +12,8 @@ angular.module('mainCtrl', [])
 		Auth.getUser()
 			.then(function(data) {
 				vm.user = data;
+				$rootScope.user = data.data.user;
 			});
-
-		console.log(vm.user);
 	});
 
 	vm.doLogin = function(validForm) {
@@ -43,6 +42,7 @@ angular.module('mainCtrl', [])
 	vm.doLogout = function() {
 		Auth.logout();
 		vm.user = {};
+		$rootScope.user = {};
 		vm.loggedIn = Auth.isLoggedIn();
 		$location.path('/');
 	};
