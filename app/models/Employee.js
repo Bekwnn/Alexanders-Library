@@ -1,12 +1,12 @@
 var mongoose = require('mongoose');
-var Schema = mongoose.Schema, ObjectId = Schema.ObjectId;
+var Schema = mongoose.Schema;
+
+var bcrypt = require('bcrypt-nodejs');
 
 var EmployeeSchema = new mongoose.Schema({
-	_id: ObjectId,
 	first_name: String,
 	last_name: String,
 	email: { type: String, unique: true },
-	username: { type: String, unique: true },
 	password: { type: String, required: true, select: false },
 });
 

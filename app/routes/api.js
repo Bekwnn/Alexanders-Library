@@ -72,7 +72,7 @@ module.exports = function(app, express) {
 				User.findOne({
 					email: req.body.email
 				}).select('password').exec(function(err, user) {
-					user._doc.admin = false;
+					if (user) user._doc.admin = false;
 					auth(err, user);
 				});
 				
@@ -140,7 +140,7 @@ module.exports = function(app, express) {
 	var adminRequiredPaths = {
 		uses: null, //no paths as of right now
 		gets: ['/user', '/reservation'],
-		posts: ['/book']
+		posts: ['/book', '/employee']
 	}
 	
 	var adminRequired = function(req, res, next) {
@@ -166,17 +166,30 @@ module.exports = function(app, express) {
 	// get the current user (do not call for employees (TODO))
 	apiRouter.get('/me', function(req, res) {
 		if (req.auth) {	// if there is a user logged in, return them
-			User.findById(req.decoded._id, function(err, user) {
-				if (err) res.send(err);
-				
-				res.json({
-					auth: req.auth,
-					user: user
-				});
+			Employee.findById(req.decoded._id, function(err, emp) {
+				if (emp) {
+					res.json({
+						auth: req.auth,
+						admin: req.decoded.admin,
+						user: emp
+					});
+				}
+				else {
+					User.findById(req.decoded._id, function(err, user) {
+						if (err) res.send(err);
+						
+						res.json({
+							auth: req.auth,
+							admin: req.decoded.admin,
+							user: user
+						});
+					});
+				}
 			});
 		} else {
 			res.json({
 				auth: req.auth,
+				admin: false,
 				user: null
 			});
 		}
@@ -211,6 +224,28 @@ module.exports = function(app, express) {
 					res.json({
 						success: true,
 						message: 'User created.'
+					});
+				}
+			});
+		});
+
+	apiRouter.route('/employee')
+		.post(function(req, res) {
+			var emp = new Employee();	// create new instance of employee model
+			console.log(req.body);
+			// set the new employee from the post params
+			emp.first_name = req.body.first_name;
+			emp.last_name = req.body.last_name;
+			emp.password = req.body.password;
+			emp.email = req.body.email;
+			
+			// save the emp
+			emp.save(function(err) {
+				if (err) {console.log("error!"); res.send(err);}
+				else {
+					res.json({
+						success: true,
+						message: 'Employee created.'
 					});
 				}
 			});
