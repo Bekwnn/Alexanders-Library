@@ -357,7 +357,7 @@ module.exports = function(app, express) {
 		
 	apiRouter.route('/user/:user_id/reservation')
 		.get(function(req, res) {	//gets a user's book reservations
-			if (req.decoded._id == req.params.user_id) {
+			if (req.decoded._id != req.params.user_id) {
 				res.json({
 					success: false,
 					message: "You do not have permission to access that user's reservations."
