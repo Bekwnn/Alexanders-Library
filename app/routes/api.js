@@ -144,6 +144,9 @@ module.exports = function(app, express) {
 	}
 	
 	var adminRequired = function(req, res, next) {
+		console.log("Admin Required Logging START");
+		console.log(req.decoded);
+		console.log("Admin Required Logging END");
 		if (!req.decoded.admin) {
 			return res.json({
 				success: false,
@@ -216,6 +219,7 @@ module.exports = function(app, express) {
 			user.email = req.body.email;
 			user.phone = req.body.phone;
 			user.address = req.body.address;
+			user.balance = 0;
 			
 			// save the user
 			user.save(function(err) {
@@ -405,7 +409,6 @@ module.exports = function(app, express) {
 					},
 					function(err, reservations) {
 						if (err) res.send(err);
-						
 						res.json(reservations);
 				});
 			}

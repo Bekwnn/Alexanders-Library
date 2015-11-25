@@ -16,8 +16,25 @@ body { padding-top:50px; }
 	margin-right: 0px;
 }
 
+.jumbotron h1{
+	font-size: 50px;
+	margin-top: 0px;
+}
+
 .jumbotron{
 	margin-top: 10px;
+	padding-top: 20px;
+	padding-bottom: 25px;
+}
+
+.small-margin{
+	margin-bottom: 3px;
+}
+
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
 }
 
 p.warning{

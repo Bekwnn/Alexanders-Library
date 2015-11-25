@@ -12,6 +12,8 @@ angular.module('mainCtrl', [])
 		Auth.getUser()
 			.then(function(data) {
 				vm.user = data;
+				$rootScope.user = data.data.user;
+				console.log(data);
 			});
 	});
 
@@ -34,13 +36,14 @@ angular.module('mainCtrl', [])
 				});
 		} else {
 			vm.submitted = true;
-			vm.error = "Login information incorrect."
+			vm.error = "Login information incorrect.";
 		}
 	};
 
 	vm.doLogout = function() {
 		Auth.logout();
 		vm.user = {};
+		$rootScope.user = {};
 		vm.loggedIn = Auth.isLoggedIn();
 		$location.path('/');
 	};
