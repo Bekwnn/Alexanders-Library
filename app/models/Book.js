@@ -11,7 +11,7 @@ var BookSchema = new mongoose.Schema({
 	},
 	price: Number,
 	subject: String,
-	seller_id: { type: ObjectId, ref: 'Seller' },
+	seller_email: String,
 	condition: String,
 	location_in_store: String,
 	date_added: Date,

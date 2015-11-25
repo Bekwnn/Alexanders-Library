@@ -270,6 +270,28 @@ module.exports = function(app, express) {
 				});
 			}
 		});
+		
+	apiRouter.route('/user/:user_id/sale')
+		.get(function(req, res) {
+			if (req.decoded._id != req.params.user_id) {
+				res.json({
+					success: false,
+					message: "You do not have permission to access that user."
+				});
+			} else {
+				var userEmail = null;
+				User.findById(req.decoded._id, function(err, user) {
+					if (err) res.send(err);
+					
+					userEmail = user.email;
+				});
+				Book.find( {seller_email: userEmail}, function(err, books) {
+					if (err) res.send(err);
+				
+					res.json(books);
+				});
+			}
+		});
 	
 //	BOOKS
 //=================================================
@@ -315,7 +337,7 @@ module.exports = function(app, express) {
 			book.subject = req.body.subject;
 			book.condition = req.body.condition;
 			book.location = req.body.location;
-			book.seller_id = req.decoded._id;
+			book.seller_email = req.decoded.seller_email;
 			
 			// save the book
 			book.save(function(err) {
@@ -335,6 +357,17 @@ module.exports = function(app, express) {
 				if (err) res.send(err);
 				
 				res.json(book);
+			});
+		})
+		.post(function(req, res) {
+			Book.findById(req.params.book_id, function(err, book) {
+				if (err) res.send(err);
+				
+				book.date_sold = new Date();
+				res.json({
+					success: true,
+					message: "Book marked as sold."
+				});
 			});
 		});
 		
