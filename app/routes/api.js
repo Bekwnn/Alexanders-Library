@@ -329,10 +329,10 @@ module.exports = function(app, express) {
 		.post(function(req, res) {
 			var book = new Book();	// create new instance of book model
 			// set the new book from the post params
-			book.book_info.title = req.body.title;
-			book.book_info.author = req.body.author;
-			book.book_info.isbn10 = req.body.isbn10;
-			book.book_info.isbn13 = req.body.isbn13;
+			book.title = req.body.title;
+			book.author = req.body.author;
+			book.isbn10 = req.body.isbn10;
+			book.isbn13 = req.body.isbn13;
 			book.price = req.body.price;
 			book.subject = req.body.subject;
 			book.condition = req.body.condition;
