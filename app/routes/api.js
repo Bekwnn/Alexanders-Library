@@ -315,6 +315,7 @@ module.exports = function(app, express) {
 			book.subject = req.body.subject;
 			book.condition = req.body.condition;
 			book.location = req.body.location;
+			book.seller_id = req.decoded._id;
 			
 			// save the book
 			book.save(function(err) {
