@@ -20,6 +20,8 @@ var port = config.port;     // set the port for our app
 // use body parser to grab info from POST requests
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(express.cookieParser());
+app.use(express.session());
 
 // configure app to handle CORS requests
 app.use(function(req, res, next) {
