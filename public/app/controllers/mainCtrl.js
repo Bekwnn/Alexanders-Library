@@ -13,7 +13,6 @@ angular.module('mainCtrl', [])
 			.then(function(data) {
 				vm.user = data;
 				$rootScope.user = data.data.user;
-				console.log(data);
 			});
 	});
 
@@ -26,9 +25,9 @@ angular.module('mainCtrl', [])
 				.success(function(data) {
 					vm.processing = false;
 					vm.loggedIn = data.success;
-					if(data.success)
+					if(data.success){
 						$location.path('/search');
-					else{
+					}else{
 						vm.loginData.email = "";
 						vm.loginData.password = "";
 						vm.error = data.message;
