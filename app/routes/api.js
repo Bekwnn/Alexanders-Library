@@ -85,6 +85,10 @@ module.exports = function(app, express) {
 		}).select('password').exec(auth);*/
 	});
 	
+	apiRouter.get('/logout', function(req,res) {
+		req.session.destroy();
+	});
+	
 //	AUTHORIZATION MIDDLEWARE
 //=======================================
 	// middleware now used on every route
