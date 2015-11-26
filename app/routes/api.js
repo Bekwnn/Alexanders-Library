@@ -86,7 +86,8 @@ module.exports = function(app, express) {
 	});
 	
 	apiRouter.get('/logout', function(req,res) {
-		req.session.destroy();
+		req.session = null;
+		res.redirect('/');
 	});
 	
 //	AUTHORIZATION MIDDLEWARE
