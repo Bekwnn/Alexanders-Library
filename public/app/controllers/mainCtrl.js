@@ -41,6 +41,7 @@ angular.module('mainCtrl', [])
 
 	vm.doLogout = function() {
 		Auth.logout();
+		location.reload();
 		vm.user = {};
 		$rootScope.user = {};
 		vm.loggedIn = Auth.isLoggedIn();

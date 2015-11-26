@@ -19,6 +19,7 @@ angular.module('authService', [])
         //handle logout
         authFactory.logout = function(){
             AuthToken.setToken(); // clears the token
+            $http.get('/api/logout');
         };
 
         //check if a user is logged in

@@ -38,6 +38,13 @@ angular.module('searchCtrl', ['bookService','userService'])
 			});
 	};
 
+	vm.sell = function(book){
+		Books.sell(book._id)
+			.success( function(data) {
+				vm.sellMessage = "Sold";
+			});
+	};
+
 	Books.all()
 		.success( function(data) {
 			vm.results = data;

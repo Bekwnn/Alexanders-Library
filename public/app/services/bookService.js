@@ -27,6 +27,10 @@ angular.module('bookService', [])
 		return $http.get('/api/book/'+id);
 	};
 
+	myFactory.sell = function(bookID) {
+		return $http.post('/api/book/'+bookID);
+	};
+
 	myFactory.reserve = function(bookID) {
 		return $http.post("/api/book/"+bookID+"/reservation");
 	};
