@@ -370,9 +370,30 @@ module.exports = function(app, express) {
 				if (err) res.send(err);
 				
 				book.date_sold = new Date();
-				res.json({
-					success: true,
-					message: "Book marked as sold."
+
+				// Update sellers balance
+				User.findOne({email: book.seller_email}, function(err, user) {
+					if (err) res.send(err);
+					
+					user.balance += book.price * 0.50;
+					user.save( function(err) {
+						if (err) res.send(err);
+						else{
+							// credits applied
+						}
+					});
+
+				});
+
+				// save the book
+				book.save(function(err) {
+					if (err) res.send(err);
+					else {
+						res.json({
+							success: true,
+							message: "Book marked as sold."
+						});
+					}
 				});
 			});
 		});
