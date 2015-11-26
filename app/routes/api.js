@@ -306,24 +306,27 @@ module.exports = function(app, express) {
 			//(ex. /api/book?q=used)(ex2. GET api/book?q=Thomas'+Calculus)
 			if (req.query['q'])
 			{
-				Book.find(
-				{$or: [	// compares whole query for exact match against any of fields TODO: fuzzy search
-					{title: req.query.q},
-					{author: req.query.q},
-					{subject: req.query.q},
-					{condition: req.query.q},
-					{isbn10: req.query.q},
-					{isbn13: req.query.q}
-				]},
-				function(err, books) {
-					if (err) res.send(err);
-					
-					res.json(books);
-				}
-			);
+				Book.find({
+					$and: [
+						{$or: [	// compares whole query for exact match against any of fields TODO: fuzzy search
+							{title: req.query.q},
+							{author: req.query.q},
+							{subject: req.query.q},
+							{condition: req.query.q},
+							{isbn10: req.query.q},
+							{isbn13: req.query.q},
+						]},
+						{date_sold: {$exsits: false}}
+					]},
+					function(err, books) {
+						if (err) res.send(err);
+						
+						res.json(books);
+					}
+				);
 			}
 			else { // if no search params, fetches all books
-				Book.find(function(err, books) {
+				Book.find({date_sold: {$exists: false}}, function(err, books) {
 					if (err) res.send(err);
 					
 					res.json(books);
@@ -368,6 +371,13 @@ module.exports = function(app, express) {
 		.post(function(req, res) {
 			Book.findById(req.params.book_id, function(err, book) {
 				if (err) res.send(err);
+				
+				if (book.hasOwnProperty('date_sold')) {
+					res.json({
+						success: false,
+						message: "Book already has a sold date."
+					})
+				}
 				
 				book.date_sold = new Date();
 
