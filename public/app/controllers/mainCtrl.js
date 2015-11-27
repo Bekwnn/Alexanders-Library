@@ -1,7 +1,20 @@
+function setSession(user){
+	localStorage.setItem('_user', JSON.stringify(user));
+}
+
+function getSession(){
+	return JSON.parse(localStorage.getItem('_user'));
+}
+
+function clearSession(){
+	localStorage.removeItem('_user');
+}
+
 angular.module('mainCtrl', [])
 
 .controller('mainController', function($rootScope, $location, Auth) {
 	var vm = this;
+	window._main = vm; // This is a DEBUG statement to access main controller via javascript console
 	vm.loggedIn = Auth.isLoggedIn();
 
 	// check if logged in on every request
@@ -11,8 +24,8 @@ angular.module('mainCtrl', [])
 		//get user data on route change
 		Auth.getUser()
 			.then(function(data) {
-				vm.user = data;
-				$rootScope.user = data.data.user;
+				vm.user = data.data;
+				setSession(data.data);
 			});
 	});
 
@@ -26,6 +39,11 @@ angular.module('mainCtrl', [])
 					vm.processing = false;
 					vm.loggedIn = data.success;
 					if(data.success){
+						Auth.getUser()
+							.then(function(data) {
+								vm.user = data.data;
+								setSession(data.data);
+							});
 						$location.path('/search');
 					}else{
 						vm.loginData.email = "";
@@ -44,6 +62,7 @@ angular.module('mainCtrl', [])
 		location.reload();
 		vm.user = {};
 		$rootScope.user = {};
+		clearSession();
 		vm.loggedIn = Auth.isLoggedIn();
 		$location.path('/');
 	};

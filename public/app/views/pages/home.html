@@ -1,11 +1,18 @@
 <div class="jumbotron text-center"> 
-    <h1>Home Page</h1>
-    <p>{{ home.message }}</p> 
-    <p>{{ home.user.first_name }} {{ home.user.last_name }}</p>
-    <p>{{ home.user._id }}</p>
-    <p>{{ home.user.email }}</p>
+	<h1>Home Page</h1>
+	<p>{{ home.message }}</p> 
+	<p>{{ home.user.user.first_name }} {{ home.user.user.last_name }}</p>
+	<p>{{ home.user.user._id }}</p>
+	<p>{{ home.user.user.email }}</p>
+	<div class="row" ng-if="!home.user.auth">
+		<div class="col-xs-4 col-xs-offset-4">
+			<a href="/login" class="btn btn-success" role="button">Login</a>
+			<a href="/signup" class="btn btn-success" role="button">Signup</a>
+		</div>
+
+	</div>
 </div>
-<div class="row">
+<div class="row" ng-if="home.user.auth">
 	<div class="col-xs-10">
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -65,7 +72,7 @@
 				<h3>Balance</h3>
 			</div>
 			<div class="panel-body">
-				<h3 class="col-sm-8 col-sm-offset-2">{{ home.user.balance | currency }}</h3>
+				<h3 class="col-sm-8 col-sm-offset-2">{{ home.user.user.balance | currency }}</h3>
 			</div>
 		</div>
 	</div>

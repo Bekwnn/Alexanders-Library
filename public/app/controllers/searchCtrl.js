@@ -1,6 +1,10 @@
+function getSession(){
+	return JSON.parse(localStorage.getItem('_user'));
+}
+
 angular.module('searchCtrl', ['bookService','userService'])
 
-.controller('searchController', function(Books,Users){
+.controller('searchController', function(Books, Users){
 	var vm = this;
 
 	vm.message = 'the search page';
@@ -47,6 +51,7 @@ angular.module('searchCtrl', ['bookService','userService'])
 
 	Books.all()
 		.success( function(data) {
+			vm.user = getSession();	
 			vm.results = data;
 			vm.resultsMessage = "All Results";
 		});

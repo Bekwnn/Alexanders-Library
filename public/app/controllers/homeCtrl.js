@@ -1,9 +1,14 @@
+function getSession(){
+	return JSON.parse(localStorage.getItem('_user'));
+}
+
 angular.module('homeCtrl',['bookService'])
 
 
-.controller('homeController', function($rootScope, Auth, Books){
+.controller('homeController', function(Auth, Books){
 	var vm = this;
-	vm.user = $rootScope.user;
+	window._home = vm; // This is a DEBUG statement to access home controller via javascript console
+	vm.user = getSession();
 	vm.results = {};
 	vm.message = "a homepage";
 
@@ -13,7 +18,7 @@ angular.module('homeCtrl',['bookService'])
 	};
 
 	if(vm.user){
-		Books.myReservations(vm.user._id)
+		Books.myReservations(vm.user.user._id)
 			.then(function (data) {
 				vm.resultsMessage = "";
 				if(data.length === 0 || data.data.success === false){
@@ -34,15 +39,4 @@ angular.module('homeCtrl',['bookService'])
 				}
 			});
 	}
-
-
-
-	/*Books.reservations()
-		.success(function(data){
-			if (data.length === 0)
-				vm.resultsMessage = "No reservations";
-			vm.results = data;
-		});
-*/
-
 });

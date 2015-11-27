@@ -1,3 +1,10 @@
+<!-- This script stops the Advanced search link shifting the page on first click -->
+<script>
+$( "a.advancedBtn" ).click(function( event ) {
+  event.preventDefault();
+});
+</script>
+
 <div class="jumbotron text-center"> 
 	<h1>Search</h1>
 	<form class="form row" ng-submit="search.search()">
@@ -13,7 +20,7 @@
 	<div class="row">
 		<div class="col-xs-8 col-xs-offset-2">
 			<div class="pull-right">
-				<a href="#advanced" data-toggle="collapse"><small>Advanced search</small></a>
+				<a class="advancedBtn" href="#advanced" data-toggle="collapse"><small>Advanced search</small></a>
 			</div>
 		</div>
 	</div>
@@ -111,11 +118,10 @@
 								</table>
 								</div>
 								<div class="col-sm-2">
-									<div class="row">
+									<div class="row" ng-if="search.user.auth && !search.user.admin">
 									<button class="col-sm-8 col-sm-offset-2 btn btn-info" ng-click="search.reserve(result)">Reserve</button>
 									</div>
-									<br>
-									<div class="row">
+									<div class="row" ng-if="search.user.auth && search.user.admin">
 									<button class="col-sm-8 col-sm-offset-2 btn btn-success" ng-click="search.sell(result)">Sell</button>
 									</div>
 								</div>
